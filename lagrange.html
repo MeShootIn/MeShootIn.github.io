@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    	<meta charset = "utf-8">
+    	<meta viewport = "width=device-width">
+    	<title>Многочлен Лагранжа</title>
+    </head>
+<body>
+	<script type = "text/javascript">
+        var N = Number(prompt("N = ?", ""));
+
+        var x = new Array(N + 1);
+		var y = new Array(N + 1);
+		let a = [];
+
+        for(let i = 0; i <= N; ++i){
+        	create_textbox("x" + i, "x" + i);
+        }
+        document.write("<br>");
+        for(let i = 0; i <= N; ++i){
+        	create_textbox("y" + i, "y" + i);
+        }
+        document.write("<br>");
+
+        let coeffs = create_button("Коэффициенты", "coeffs_button");
+        document.write("<br>");
+        coeffs.onclick = function(){
+        	scan();
+
+        	a = get_coefficients();
+
+        	for(let i = 0; i <= N; ++i){
+        		document.write(a[i] + " ");
+        	}
+        	document.write("<br>");
+  		};
+
+  		let point_textbox = create_textbox("x", "point");
+  		document.write("<br>");
+  		let get_value = create_button("Значение в точке", "value_button");
+  		get_value.onclick = function(){
+  			scan();
+  			document.write(P(Number(point_textbox.value)));
+  		}
+
+        function P(t){
+		    let S = 0;
+		   
+		    for(let i = 0; i <= N; ++i){
+		        let L = 1;
+		       
+		        for(let j = 0; j <= N; ++j){
+		            if(i != j){
+		                L *= (t - x[j]) / (x[i] - x[j]);
+		            }
+		        }
+		       
+		        S += y[i] * L;
+		    }
+		   
+		    return S;
+		}
+
+		function get_coefficients(){
+		    let a = new Array(N + 1);
+		   
+		    for(let i = 0; i <= N; ++i){
+		        a[i] = y[i];
+		        for(let j = 0; j <= N; ++j){
+		            if(i != j){
+		                a[i] /= x[i] - x[j];
+		            }
+		        }
+		    }
+
+		    return a;
+		}
+
+		function scan(){
+			for(let i = 0; i <= N; ++i){
+        		x[i] = document.getElementById("x" + i).value;
+        		y[i] = document.getElementById("y" + i).value;
+        	}
+		}
+
+        function create_button(text, ident){
+        	let button = document.createElement("input");
+    		button.type = "button";
+            
+    		button.value = text;
+    		button.id = ident;
+            
+            document.body.appendChild(button);
+            return button;
+		}
+        
+        function create_textbox(text, ident){
+        	let textbox = document.createElement("input");
+            textbox.type = "text";
+			textbox.size = 4;
+            
+            textbox.placeholder = text;
+			textbox.id = ident;
+            
+			document.body.appendChild(textbox);
+            return textbox;
+        } 
+    </script>
+</body>
+</html>
