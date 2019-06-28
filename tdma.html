@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    	<meta charset = "utf-8">
+        <meta viewport = "width=device-width">
+    	<title>Метод прогонки</title>
+        <style>
+        body{
+            max-width:200
+        }  
+        </style>
+    </head>
+<body>
+	<script type = "text/javascript">
+        var SPACES = 15;
+
+        let N = Number(prompt("Количество уравнений N = ?", ""));
+        print_tridiagonal_matrix(N);
+
+        var a = new Array(N);
+        var b = new Array(N);
+        var c = new Array(N);
+        var d = new Array(N);
+
+        let solve_button = create_button("Решение", "solve_button");
+        solve_button.onclick = function(){
+            a[0] = 0;
+            for(let i = 1; i < N; ++i){
+                a[i] = Number(document.getElementById("a" + i).value);
+            }
+            
+            for(let i = 0; i < N; ++i){
+                b[i] = Number(document.getElementById("b" + i).value);
+            }
+            
+            c[N - 1] = 0;
+            for(let i = 0; i < N - 1; ++i){
+                c[i] = Number(document.getElementById("c" + i).value);
+            }
+            
+            for(let i = 0; i < N; ++i){
+                d[i] = Number(document.getElementById("d" + i).value);
+            }
+
+            let x = TDMA(a, b, c, d);
+
+            for(let i = 0; i < x.length; ++i){
+                document.write(x[i] + "<br>");
+            }
+        }
+
+        function print_tridiagonal_matrix(N){
+            for(let i = 0; i < N; ++i){
+                for(let j = 0; j < 3; ++j){
+                    // первую ячейку не печатать (a[0] = 0)
+                    if(i == 0 && j == 0){
+                        continue;
+                    }
+                    
+                    // пробелы в начале строки
+                    if(i > 1 && j == 0){
+                        for(var space = 0; space < i - 1; ++space){
+                            print_spaces(SPACES);
+                        }
+                    }
+                    
+                    // последнюю ячейку не печатать (c[n - 1] = 0)
+                    if(i == N - 1 && j == 2){
+                        continue;
+                    }
+                    
+                    // собственно ячейка
+                    let txt = String.fromCharCode("a".charCodeAt(0) + j) + i;
+                    let textbox = create_textbox(txt, txt);
+                }
+                
+                // пробелы перед d[i]
+                print_spaces(SPACES);
+                for(let space = 0; space < N - i - 2; ++space){
+                    print_spaces(SPACES);
+                }
+                
+                let textbox = create_textbox("d" + i, "d" + i);
+                
+                document.write("<br>");
+            }
+        }
+
+        function print_spaces(count){
+            for(let len = 0; len < count; ++len){
+                document.write("&nbsp;");
+            }
+        }
+        
+        function create_button(text, ident){
+            let button = document.createElement("input");
+            button.type = "button";
+            
+            button.value = text;
+            button.id = ident;
+            
+            document.body.appendChild(button);
+            return button;
+        }
+        
+        function create_textbox(text, ident){
+            let textbox = document.createElement("input");
+            textbox.type = "text";
+            textbox.size = 4;
+            
+            textbox.placeholder = text;
+            textbox.id = ident;
+            
+            document.body.appendChild(textbox);
+            return textbox;
+        }
+        
+    	function TDMA(a, b, c, d){
+            let N = a.length;
+
+            let alpha = new Array(N);
+            let beta = new Array(N);
+            let x = new Array(N);
+            
+            for(let i = 0; i < N; ++i){
+            	alpha[i] = beta[i] = x[i] = 0;
+            }
+            
+            for(let i = 1; i < N; ++i){
+            	alpha[i] = -c[i - 1] / (a[i - 1] * alpha[i - 1] + b[i - 1]);
+                beta[i] = (d[i - 1] - a[i - 1] * beta[i - 1]) / (a[i - 1] * alpha[i - 1] + b[i - 1]);
+            }
+             
+            x[N - 1] = (d[N - 1] - a[N - 1] * beta[N - 1]) / (b[N - 1] + a[N - 1] * alpha[N - 1]);
+            for(let i = N - 2; i >= 0; --i){
+            	x[i] = alpha[i + 1] * x[i + 1] + beta[i + 1];
+            }
+            
+            return x;
+        }
+        
+        function print_arrays(a, b, c, d){
+        	document.write("a[]: ", a);
+            document.write("<br>");
+            
+            document.write("b[]: ", b);
+            document.write("<br>");
+            
+            document.write("c[]: ", c);
+            document.write("<br>");
+            
+            document.write("d[]: ", d);
+            document.write("<br>");
+        }
+    </script>
+</body>
+</html>
