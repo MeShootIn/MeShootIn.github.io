@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <title>Метод прогонки</title>
+    	<meta charset = "utf-8">
+        <meta name = "description" content = "Решение трёхдиагональной СЛАУ методом прогонки онлайн">
+        <meta name = "keywords" content = "метод прогонки, метод, прогонки, трёхдиагональная, слау, калькулятор, онлайн, решение">
+        <meta http-equiv = "X-UA-Compatible" content = "IE = edge">
+    </head>
+<body>
+	<script type = "text/javascript">
+        // !!!!!!!!!!!!!!! ЛУЧШЕ СДЕЛАТЬ ЧЕРЕЗ ТАБЛИЦУ!!!!
+        var SPACES = 15;
+
+        /*let N = 4;
+        let a = [0, 1, 1, 1];
+        let b = [2, 10, -5, 4];
+        let c = [1, -5, 2, 0];
+        let d = [-5, -18, -40, -27];*/
+
+        let N = Number(prompt("Количество уравнений n = ?", ""));
+
+        /*document.write("<table border = '1'><tr>");
+        for(i = 0; i < 100; ++i){
+            document.write("<td>" + i + "</td>");
+        }
+        document.write("</tr></table>");*/
+
+        print_tridiagonal_matrix(N);
+        document.write("<meta name = 'viewport' content = 'width = device-width, initial-scale = 1'>");
+
+        let a = new Array(N);
+        let b = new Array(N);
+        let c = new Array(N);
+        let d = new Array(N);
+
+        let solve_button = create_button("Решение", "solve_button");
+        solve_button.onclick = function(){
+            a[0] = 0;
+            for(let i = 1; i < N; ++i){
+                a[i] = Number(document.getElementById("a" + i).value);
+            }
+            
+            for(let i = 0; i < N; ++i){
+                b[i] = Number(document.getElementById("b" + i).value);
+            }
+            
+            c[N - 1] = 0;
+            for(let i = 0; i < N - 1; ++i){
+                c[i] = Number(document.getElementById("c" + i).value);
+            }
+            
+            for(let i = 0; i < N; ++i){
+                d[i] = Number(document.getElementById("d" + i).value);
+            }
+
+            TDMA(a, b, c, d);
+        }
+
+        function print_tridiagonal_matrix(N){
+            for(let i = 0; i < N; ++i){
+                for(let j = 0; j < 3; ++j){
+                    // первую ячейку не печатать (a[0] = 0)
+                    if(i == 0 && j == 0){
+                        continue;
+                    }
+                    
+                    // пробелы в начале строки
+                    if(i > 1 && j == 0){
+                        for(var space = 0; space < i - 1; ++space){
+                            print_spaces(SPACES);
+                        }
+                    }
+                    
+                    // последнюю ячейку не печатать (c[n - 1] = 0)
+                    if(i == N - 1 && j == 2){
+                        continue;
+                    }
+                    
+                    // собственно ячейка
+                    let txt = String.fromCharCode("a".charCodeAt(0) + j) + i;
+                    let textbox = create_textbox(txt, txt);
+                }
+                
+                // пробелы перед d[i]
+                print_spaces(SPACES);
+                for(let space = 0; space < N - i - 2; ++space){
+                    print_spaces(SPACES);
+                }
+                
+                let textbox = create_textbox("d" + i, "d" + i);
+                
+                document.write("<br>");
+            }
+        }
+
+        function print_spaces(count){
+            for(let len = 0; len < count; ++len){
+                document.write("&nbsp;");
+            }
+        }
+        
+        function create_button(text, ident){
+            let button = document.createElement("input");
+            button.type = "button";
+            
+            button.value = text;
+            button.id = ident;
+            
+            document.body.appendChild(button);
+            return button;
+        }
+        
+        function create_textbox(text, ident){
+            let textbox = document.createElement("input");
+            textbox.type = "text";
+            textbox.size = 4;
+            
+            textbox.placeholder = text;
+            textbox.id = ident;
+            
+            document.body.appendChild(textbox);
+            return textbox;
+        }
+        
+        // !!!!!!!!!!!
+        // всё равно добавить дроби, но только в ответах (x[i] = 5/12 ...)
+    	function TDMA(a, b, c, d){
+            document.write("<strong>Расчётные формулы:</strong><br>");
+            document.write("&alpha;<sub>0</sub> = &beta;<sub>0</sub> = 0<br>");
+            document.write("&alpha;<sub>i</sub> = (-c<sub>i - 1</sub>) / (a<sub>i - 1</sub>&times;&alpha;<sub>i - 1</sub> + b<sub>i - 1</sub>) (&forall;i = 1 &divide; n-1)<br>");
+            document.write("&beta;<sub>i</sub> = (d<sub>i - 1</sub> - a<sub>i - 1</sub>&times;&beta;<sub>i - 1</sub>) / (a<sub>i - 1</sub>&times;&alpha;<sub>i - 1</sub> + b<sub>i - 1</sub>) (&forall;i = 1 &divide; n - 1)<br>");
+            document.write("x<sub>i</sub> = &alpha;<sub>i + 1</sub>&times;x<sub>i + 1</sub> + &beta;<sub>i + 1</sub> (&forall;i = n - 2 &divide; 0)<br><strong>Решение:</strong><br>");
+
+            let N = a.length;
+            let alpha = new Array(N);
+            let beta = new Array(N);
+            let x = new Array(N);
+            
+            for(let i = 0; i < N; ++i){
+            	alpha[i] = beta[i] = x[i] = 0;
+            }
+            
+            for(let i = 1; i < N; ++i){
+            	alpha[i] = -c[i - 1] / (a[i - 1] * alpha[i - 1] + b[i - 1]);
+                beta[i] = (d[i - 1] - a[i - 1] * beta[i - 1]) / (a[i - 1] * alpha[i - 1] + b[i - 1]);
+                document.write("&alpha;<sub>" + i + "</sub> = " + alpha[i] + "; &beta;<sub>" + i + "</sub> = " + beta[i] + "<br>");
+            }
+             
+            x[N - 1] = (d[N - 1] - a[N - 1] * beta[N - 1]) / (a[N - 1] * alpha[N - 1] + b[N - 1]);
+            document.write("x<sub>" + (N - 1) + "</sub> = " + x[N - 1] + "<br>");
+            for(let i = N - 2; i >= 0; --i){
+            	x[i] = alpha[i + 1] * x[i + 1] + beta[i + 1];
+                document.write("x<sub>" + i + "</sub> = " + x[i] + "<br>");
+            }
+        }
+    </script>
+</body>
+</html>
