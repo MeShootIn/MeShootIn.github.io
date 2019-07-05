@@ -5,10 +5,10 @@
     	<meta charset = "utf-8">
         <meta name = "description" content = "Решение трёхдиагональной СЛАУ методом прогонки онлайн">
         <meta name = "keywords" content = "метод прогонки, метод, прогонки, трёхдиагональная, слау, калькулятор, онлайн, решение">
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1">
     </head>
 <body>
 	<script type = "text/javascript">
-        // !!!!!!!!!!!!!!! ЛУЧШЕ СДЕЛАТЬ ЧЕРЕЗ ТАБЛИЦУ!!!!
         var SPACES = 15;
 
         /*let N = 4;
@@ -18,7 +18,7 @@
         let d = [-5, -18, -40, -27];*/
 
         let N = Number(prompt("Количество уравнений n = ?", ""));
-
+        
         print_tridiagonal_matrix(N);
 
         let a = new Array(N);
@@ -49,7 +49,7 @@
             TDMA(a, b, c, d);
         }
 
-        function print_tridiagonal_matrix(N){
+        /*function print_tridiagonal_matrix(N){
             for(let i = 0; i < N; ++i){
                 for(let j = 0; j < 3; ++j){
                     // первую ячейку не печатать (a[0] = 0)
@@ -84,6 +84,33 @@
                 
                 document.write("<br>");
             }
+        }*/
+
+        function print_tridiagonal_matrix(N){
+            document.write("<table border = '1'>");
+            for(let i = 0; i < N; ++i){
+                document.write("<tr>");
+                for(let j = 0; j < i - 1; ++j){
+                    document.write("<td align = 'center'>0</td>");
+                }
+                for(let j = 0; j < 3; ++j){
+                    if((i == 0 && j == 0) || (i == N - 1 && j == 2)){
+                        continue;
+                    }
+                    let txt = String.fromCharCode("a".charCodeAt(0) + j) + i;
+                    document.write("<td><input type = 'text' placeholder = '" + txt + "' size = '4' id = '" + txt + "'></td>");
+                }
+                for(let j = 0; j < N - i - 2; ++j){
+                    document.write("<td align = 'center'>0</td>");
+                }
+                document.write("</tr>");
+            }
+            document.write("</table><table border = '1'>");
+            for(let i = 0; i < N; ++i){
+                let txt = "d" + i;
+                document.write("<tr><td><input type = 'text' placeholder = '" + txt + "' size = '4' id = '" + txt + "'></td></tr>");
+            }
+            document.write("</table>");
         }
 
         function print_spaces(count){
@@ -115,7 +142,6 @@
             return textbox;
         }
         
-        // !!!!!!!!!!!
         // всё равно добавить дроби, но только в ответах (x[i] = 5/12 ...)
     	function TDMA(a, b, c, d){
             document.write("<strong>Расчётные формулы:</strong><br>");
