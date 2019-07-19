@@ -2,17 +2,12 @@
 <html>
 	<head>
         <title>Метод прогонки</title>
+
     	<meta charset = "utf-8">
         <meta name = "description" content = "Решение трёхдиагональной СЛАУ методом прогонки онлайн">
         <meta name = "keywords" content = "метод прогонки, метод, прогонки, трёхдиагональная, слау, калькулятор, онлайн, решение">
+        <meta http-equiv = "X-UA-Compatible" content = "IE = edge">
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
-
-        <style type = "text/css">
-            input:disabled{
-                border: solid 1px white;
-                background-color: white;
-            }
-        </style>
     </head>
 <body>
     <script type = "text/javascript" src = "fraction.js"></script>
@@ -25,40 +20,47 @@
         let c = [1, -5, 2, 0];
         let d = [-5, -18, -40, -27];*/
 
-        let N = Number(prompt("Количество уравнений n = ?", ""));
+        //let N = Number(prompt("Количество уравнений n = ?", ""));
+        document.write("Количество уравнений n:<br><input type = 'text' size = '4' id = 'N'><br>Вид дробей:<br>");
+        document.write("<input type = 'radio' name = 'fraction'>Обыкновенные<br>");
+        document.write("<input type = 'radio' name = 'fraction'>Десятичные<br>");
         
-        print_tridiagonal_matrix(N);
+        let go_button = create_button("Ввод", "go_button");
+        go_button.onclick = function(){
+            let N = Number(document.getElementById("N").value);
+            print_tridiagonal_matrix(N);
 
-        let a = new Array(N);
-        let b = new Array(N);
-        let c = new Array(N);
-        let d = new Array(N);
+            let a = new Array(N);
+            let b = new Array(N);
+            let c = new Array(N);
+            let d = new Array(N);
 
-        let solve_button = create_button("Решение", "solve_button");
-        solve_button.onclick = function(){
-            a[0] = 0;
-            for(let i = 1; i < N; ++i){
-                a[i] = Number(document.getElementById("a" + i).value);
-            }
-            
-            for(let i = 0; i < N; ++i){
-                b[i] = Number(document.getElementById("b" + i).value);
-            }
-            
-            c[N - 1] = 0;
-            for(let i = 0; i < N - 1; ++i){
-                c[i] = Number(document.getElementById("c" + i).value);
-            }
-            
-            for(let i = 0; i < N; ++i){
-                d[i] = Number(document.getElementById("d" + i).value);
-            }
+            let solve_button = create_button("Решение", "solve_button");
+            solve_button.onclick = function(){
+                a[0] = 0;
+                for(let i = 1; i < N; ++i){
+                    a[i] = Number(document.getElementById("a" + i).value);
+                }
+                
+                for(let i = 0; i < N; ++i){
+                    b[i] = Number(document.getElementById("b" + i).value);
+                }
+                
+                c[N - 1] = 0;
+                for(let i = 0; i < N - 1; ++i){
+                    c[i] = Number(document.getElementById("c" + i).value);
+                }
+                
+                for(let i = 0; i < N; ++i){
+                    d[i] = Number(document.getElementById("d" + i).value);
+                }
 
-            TDMA(a, b, c, d);
+                TDMA(a, b, c, d);
+            }
         }
 
         function print_tridiagonal_matrix(N){
-            document.write("<table>");
+            document.write("<style type = 'text/css'>input:disabled{border: solid 1px white;background-color: white;}</style><table>");
 
             for(let i = 0; i < N; ++i){
                 document.write("<tr>");
@@ -109,12 +111,11 @@
 
         // всё равно добавить дроби, но только в ответах (x[i] = 5/12 ...)
     	function TDMA(a, b, c, d){
-            document.write("<strong>Расчётные формулы:</strong><br>");
-            document.write("&alpha;<sub>0</sub> = &beta;<sub>0</sub> = 0<br>");
-            document.write("&alpha;<sub>i</sub> = (-c<sub>i - 1</sub>) / (a<sub>i - 1</sub>&times;&alpha;<sub>i - 1</sub> + b<sub>i - 1</sub>) (&forall;i = 1 &divide; n - 1)<br>");
-            document.write("&beta;<sub>i</sub> = (d<sub>i - 1</sub> - a<sub>i - 1</sub>&times;&beta;<sub>i - 1</sub>) / (a<sub>i - 1</sub>&times;&alpha;<sub>i - 1</sub> + b<sub>i - 1</sub>) (&forall;i = 1 &divide; n - 1)<br>");
-            document.write("x<sub>n - 1</sub> = (d<sub>n - 1</sub> - a<sub>n - 1</sub>&times;&beta;<sub>n - 1</sub>) / (a<sub>n - 1</sub>&times;&alpha;<sub>n - 1</sub> + b<sub>n - 1</sub>)<br>");
-            document.write("x<sub>i</sub> = &alpha;<sub>i + 1</sub>&times;x<sub>i + 1</sub> + &beta;<sub>i + 1</sub> (&forall;i = n - 2 &divide; 0)<br><strong>Решение:</strong><br>");
+            document.write("<br><strong>Расчётные формулы:</strong><br>");
+            document.write("&alpha;<sub>0</sub> = &alpha;<sub>n</sub> = &beta;<sub>0</sub> = 0<br>");
+            document.write("&alpha;<sub>i</sub> = (-c<sub>i - 1</sub>) / (a<sub>i - 1</sub>&times;&alpha;<sub>i - 1</sub> + b<sub>i - 1</sub>) (&forall;i = 1 &divide; n)<br>");
+            document.write("&beta;<sub>i</sub> = (d<sub>i - 1</sub> - a<sub>i - 1</sub>&times;&beta;<sub>i - 1</sub>) / (a<sub>i - 1</sub>&times;&alpha;<sub>i - 1</sub> + b<sub>i - 1</sub>) (&forall;i = 1 &divide; n)<br>");
+            document.write("x<sub>i</sub> = &alpha;<sub>i + 1</sub>&times;x<sub>i + 1</sub> + &beta;<sub>i + 1</sub> (&forall;i = n - 1 &divide; 0)<br><strong>Решение:</strong><br>");
 
             let N = a.length;
             let alpha = new Array(N);
