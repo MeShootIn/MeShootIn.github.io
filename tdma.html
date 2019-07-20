@@ -12,15 +12,13 @@
 <body>
     <script type = "text/javascript" src = "fraction.js"></script>
 	<script type = "text/javascript">
-        var SPACES = 15;
-
         /*let N = 4;
         let a = [0, 1, 1, 1];
         let b = [2, 10, -5, 4];
         let c = [1, -5, 2, 0];
-        let d = [-5, -18, -40, -27];*/
+        let d = [-5, -18, -40, -27];
+        ответ -3 1 5 -8*/
 
-        //let N = Number(prompt("Количество уравнений n = ?", ""));
         document.write("Количество уравнений n:<br><input type = 'text' size = '4' id = 'N'><br>Вид дробей:<br>");
         document.write("<input type = 'radio' name = 'fraction'>Обыкновенные<br>");
         document.write("<input type = 'radio' name = 'fraction'>Десятичные<br>");
@@ -28,35 +26,93 @@
         let go_button = create_button("Ввод", "go_button");
         go_button.onclick = function(){
             let N = Number(document.getElementById("N").value);
-            print_tridiagonal_matrix(N);
 
             let a = new Array(N);
             let b = new Array(N);
             let c = new Array(N);
             let d = new Array(N);
 
-            let solve_button = create_button("Решение", "solve_button");
-            solve_button.onclick = function(){
-                a[0] = 0;
-                for(let i = 1; i < N; ++i){
-                    a[i] = Number(document.getElementById("a" + i).value);
+            // ОБЫКНОВЕННЫЕ ДРОБИ
+            if(document.getElementsByName("fraction")[0].checked){
+                print_tridiagonal_matrix_fractions(N);
+
+                let solve_button = create_button("Решение", "solve_button");
+                solve_button.onclick = function(){
+                    a[0] = new Fraction(0, 1);
+                    for(let i = 1; i < N; ++i){
+                        a[i] = new Fraction(Number(document.getElementById("a" + i + "num").value), Number(document.getElementById("a" + i + "den").value));
+                    }
+                    
+                    for(let i = 0; i < N; ++i){
+                        b[i] = new Fraction(Number(document.getElementById("b" + i + "num").value), Number(document.getElementById("b" + i + "den").value));
+                    }
+                    
+                    c[N - 1] = new Fraction(0, 1);
+                    for(let i = 0; i < N - 1; ++i){
+                        c[i] = new Fraction(Number(document.getElementById("c" + i + "num").value), Number(document.getElementById("c" + i + "den").value));
+                    }
+                    
+                    for(let i = 0; i < N; ++i){
+                        d[i] = new Fraction(Number(document.getElementById("d" + i + "num").value), Number(document.getElementById("d" + i + "den").value));
+                    }
+
+                    TDMA(a, b, c, d);
                 }
-                
-                for(let i = 0; i < N; ++i){
-                    b[i] = Number(document.getElementById("b" + i).value);
+            }
+            // ДЕСЯТИЧНЫЕ ДРОБИ
+            else{
+                print_tridiagonal_matrix(N);
+
+                let solve_button = create_button("Решение", "solve_button");
+                solve_button.onclick = function(){
+                    a[0] = new Fraction(0, 1);
+                    for(let i = 1; i < N; ++i){
+                        a[i]= new Fraction(Number(document.getElementById("a" + i).value), 1);
+                    }
+                    
+                    for(let i = 0; i < N; ++i){
+                        b[i] = new Fraction(Number(document.getElementById("b" + i).value), 1);
+                    }
+                    
+                    c[N - 1] = new Fraction(0, 1);
+                    for(let i = 0; i < N - 1; ++i){
+                        c[i] = new Fraction(Number(document.getElementById("c" + i).value), 1);
+                    }
+                    
+                    for(let i = 0; i < N; ++i){
+                        d[i] = new Fraction(Number(document.getElementById("d" + i).value), 1);
+                    }
+
+                    TDMA(a, b, c, d);
                 }
-                
-                c[N - 1] = 0;
-                for(let i = 0; i < N - 1; ++i){
-                    c[i] = Number(document.getElementById("c" + i).value);
+            }            
+        }
+
+        function print_tridiagonal_matrix_fractions(N){
+            document.write("<style type = 'text/css'>input:disabled{border: solid 1px white;background-color: white;}</style><table>");
+
+            for(let i = 0; i < N; ++i){
+                document.write("<tr>");
+                for(let j = 0; j < i - 1; ++j){
+                    document.write("<td align = 'center'>0</td>");
                 }
-                
-                for(let i = 0; i < N; ++i){
-                    d[i] = Number(document.getElementById("d" + i).value);
+                for(let j = 0; j < 3; ++j){
+                    if((i == 0 && j == 0) || (i == N - 1 && j == 2)){
+                        continue;
+                    }
+                    let txt = String.fromCharCode("a".charCodeAt(0) + j) + i;
+                    document.write("<td><input type = 'text' placeholder = '" + txt + "' size = '1' id = '" + txt + "num'><br><input type = 'text' size = '1' id = '" + txt + "den'></td>");
+                }
+                for(let j = 0; j < N - i - 2; ++j){
+                    document.write("<td align = 'center'>0</td>");
                 }
 
-                TDMA(a, b, c, d);
+                let txt = "d" + i;
+                document.write("<td><input size = '1' disabled><br><input size = '1' disabled></td><td><input type = 'text' placeholder = '" + txt + "' size = '1' id = '" + txt + "num'><br><input type = 'text' size = '1' id = '" + txt + "den'></td>");
+                document.write("</tr>");
             }
+
+            document.write("</table>");
         }
 
         function print_tridiagonal_matrix(N){
@@ -109,7 +165,6 @@
             return textbox;
         }
 
-        // всё равно добавить дроби, но только в ответах (x[i] = 5/12 ...)
     	function TDMA(a, b, c, d){
             document.write("<br><strong>Расчётные формулы:</strong><br>");
             document.write("&alpha;<sub>0</sub> = &alpha;<sub>n</sub> = &beta;<sub>0</sub> = 0<br>");
@@ -118,26 +173,48 @@
             document.write("x<sub>i</sub> = &alpha;<sub>i + 1</sub>&times;x<sub>i + 1</sub> + &beta;<sub>i + 1</sub> (&forall;i = n - 1 &divide; 0)<br><strong>Решение:</strong><br>");
 
             let N = a.length;
-            let alpha = new Array(N);
-            let beta = new Array(N);
+            let alpha = new Array(N + 1);
+            let beta = new Array(N + 1);
             let x = new Array(N);
             
-            for(let i = 0; i < N; ++i){
-            	alpha[i] = beta[i] = x[i] = 0;
+            for(let i = 0; i <= N; ++i){
+            	alpha[i] = new Fraction(0, 1);
+                beta[i] = new Fraction(0, 1);
+                x[i] = new Fraction(0, 1);
             }
             
-            for(let i = 1; i < N; ++i){
-            	alpha[i] = -c[i - 1] / (a[i - 1] * alpha[i - 1] + b[i - 1]);
-                beta[i] = (d[i - 1] - a[i - 1] * beta[i - 1]) / (a[i - 1] * alpha[i - 1] + b[i - 1]);
-                document.write("&alpha;<sub>" + i + "</sub> = " + alpha[i] + "; &beta;<sub>" + i + "</sub> = " + beta[i] + "<br>");
+            for(let i = 1; i <= N; ++i){
+            	if(i != N){
+                    alpha[i] = div(mult(c[i - 1], new Fraction(-1, 1)), sum(mult(a[i - 1], alpha[i - 1]), b[i - 1]));
+                    alpha[i].reduce();
+                }
+                beta[i] = div(sub(d[i - 1], mult(a[i - 1], beta[i - 1])), sum(mult(a[i - 1], alpha[i - 1]), b[i - 1]));
+                beta[i].reduce();
+
+                // сделать знаменатель только натуральным!!!!!
+                document.write("&alpha;<sub>" + i + "</sub> = ");
+                print_fraction(alpha[i]);
+
+                document.write("; &beta;<sub>" + i + "</sub> = ");
+                print_fraction(beta[i]);
+                document.write(";<br>");
             }
-             
-            x[N - 1] = (d[N - 1] - a[N - 1] * beta[N - 1]) / (a[N - 1] * alpha[N - 1] + b[N - 1]);
-            document.write("x<sub>" + (N - 1) + "</sub> = " + x[N - 1] + "<br>");
-            for(let i = N - 2; i >= 0; --i){
-            	x[i] = alpha[i + 1] * x[i + 1] + beta[i + 1];
-                document.write("x<sub>" + i + "</sub> = " + x[i] + "<br>");
+
+            for(let i = N - 1; i >= 0; --i){
+            	x[i] = sum(mult(alpha[i + 1], x[i + 1]), beta[i + 1]);
+                x[i].reduce();
+
+                document.write("x<sub>" + i + "</sub> = ");
+                print_fraction(x[i]);
+                document.write(";<br>");
             }
+        }
+
+        function print_fraction(A){
+            if(A.den != 1){
+                document.write(A.num + "/" + A.den + " = ");
+            }
+            document.write(A.value());
         }
     </script>
 </body>
