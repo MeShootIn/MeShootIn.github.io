@@ -10,7 +10,6 @@
         <meta name = "viewport" content = "width = device-width, initial-scale = 1">
     </head>
 <body>
-    <script type = "text/javascript" src = "fraction.js"></script>
 	<script type = "text/javascript">
         /*let N = 4;
         let a = [0, 1, 1, 1];
@@ -32,7 +31,7 @@
             let c = new Array(N);
             let d = new Array(N);
 
-            // ОБЫКНОВЕННЫЕ ДРОБИ
+            // Обыкновенные дроби
             if(document.getElementsByName("fraction")[0].checked){
                 print_tridiagonal_matrix_fractions(N);
 
@@ -59,7 +58,7 @@
                     TDMA(a, b, c, d);
                 }
             }
-            // ДЕСЯТИЧНЫЕ ДРОБИ
+            // Десятичные дроби
             else{
                 print_tridiagonal_matrix(N);
 
@@ -215,6 +214,63 @@
                 document.write(A.num + "/" + A.den + " = ");
             }
             document.write(A.value());
+        }
+
+
+
+        // Класс дробей
+        class Fraction{
+            constructor(a, b){
+                this.num = a;
+                this.den = b;
+            }
+
+            reduce(){
+                let k = gcd(this.num, this.den);
+
+                this.num /= k;
+                this.den /= k;
+
+                if(this.den < 0){
+                    this.num *= -1;
+                    this.den *= -1;
+                }
+                
+                return this;
+            }
+
+            value(){
+                return this.num / this.den;
+            }
+        }
+
+        function sum(A, B){
+            return new Fraction(A.num * B.den + A.den * B.num, A.den * B.den);
+        }
+
+        function sub(A, B){
+            B.num *= -1;
+
+            return sum(A, B);
+        }
+
+        function mult(A, B){
+            return new Fraction(A.num * B.num, A.den * B.den);
+        }
+
+        function div(A, B){
+            B.den = [B.num, B.num = B.den][0];
+
+            return mult(A, B);
+        }
+
+        function gcd(a, b){
+            while(b != 0){
+                a %= b;
+                b = [a, a = b][0];
+            }
+
+            return a;
         }
     </script>
 </body>
