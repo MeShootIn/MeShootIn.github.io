@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 	<head>
         <title>Метод прогонки</title>
 
@@ -18,21 +18,15 @@
         let d = [-5, -18, -40, -27];*/
         // ответ -3 1 5 -8
 
-        //print("Количество уравнений n:<br><input type = 'text' size = '4' id = 'N'><br>Вид дробей:<br>");
-        print("<input type = 'radio' name = 'fraction' checked hidden>Обыкновенные<br>");
-        print("<input type = 'radio' name = 'fraction'hidden>Десятичные<br>");
+        print("Количество уравнений n:<br><input type = 'text' size = '4' id = 'N'><br>");
+        /*print("Вид дробей:<br>");
+        print("<input type = 'radio' name = 'fraction'>Обыкновенные<br>");
+        print("<input type = 'radio' name = 'fraction'>Десятичные<br>");*/
         
         let go_button = create_button("Ввод", "go_button");
         go_button.onclick = function(){
-            //let N = Number(document.getElementById("N").value);
-            let N = 4;
-
-            let a = new Array(N);
-            let b = new Array(N);
-            let c = new Array(N);
-            let d = new Array(N);
-
-            a[0] = new Fraction(0, 1);
+            /*let N = 4;
+            /a[0] = new Fraction(0, 1);
             a[1] = new Fraction(1, 1);
             a[2] = new Fraction(1, 1);
             a[3] = new Fraction(1, 1);
@@ -50,15 +44,23 @@
             d[0] = new Fraction(-5, 1);
             d[1] = new Fraction(-18, 1);
             d[2] = new Fraction(-40, 1);
-            d[3] = new Fraction(-27, 1);
+            d[3] = new Fraction(-27, 1);*/
+
+            let N = Number(document.getElementById("N").value);
+
+            let a = new Array(N);
+            let b = new Array(N);
+            let c = new Array(N);
+            let d = new Array(N);
 
             // Обыкновенные дроби
-            if(document.getElementsByName("fraction")[0].checked){
-                //print_tridiagonal_matrix_fractions(N);
+            //document.getElementsByName("fraction")[0].checked
+            if(true){
+                print_tridiagonal_matrix_fractions(N);
 
                 let solve_button = create_button("Решение", "solve_button");
                 solve_button.onclick = function(){
-                    /*a[0] = new Fraction(0, 1);
+                    a[0] = new Fraction(0, 1);
                     for(i = 1; i < N; ++i){
                         a[i] = new Fraction(Number(document.getElementById("a" + i + "num").value), Number(document.getElementById("a" + i + "den").value));
                     }
@@ -74,7 +76,7 @@
                     
                     for(i = 0; i < N; ++i){
                         d[i] = new Fraction(Number(document.getElementById("d" + i + "num").value), Number(document.getElementById("d" + i + "den").value));
-                    }*/
+                    }
 
                     TDMA_fractions(a, b, c, d);
                 }
@@ -223,31 +225,40 @@
 
                     print("<table border='0' cellspacing='0' cellpadding='0'>");
                     print("<tr><td rowspan='2'>&alpha;<sub>" + i + "</sub> = &nbsp;");
-                    if(alpha[i].num < 0){
-                        print("-&nbsp;");
-                    }
-                    print("</td>");
 
-                    if(alpha[i].den != 1){
+                    if(alpha[i].num != 0){
                         if(alpha[i].num < 0){
-                            print("<td>" + (-alpha[i].num) + "<hr>");
+                            print("-");
+                            if(alpha[i].den != 1){
+                                print("&nbsp;");
+                            }
+                        }
+                        print("</td>");
+
+                        if(alpha[i].den != 1){
+                            if(alpha[i].num < 0){
+                                print("<td>" + (-alpha[i].num) + "<hr>");
+                            }
+                            else{
+                                print("<td>" + alpha[i].num + "<hr>");
+                            }
                         }
                         else{
-                            print("<td>" + alpha[i].num + "<hr>");
+                            if(alpha[i].num < 0){
+                                print("<td rowspan='2'>" + (-alpha[i].num));
+                            }
+                            else{
+                                print("<td rowspan='2'>" + alpha[i].num);
+                            }
+                        }
+                        print("</td></tr>");
+
+                        if(alpha[i].den != 1){
+                            print("<tr><td>" + alpha[i].den + "</td></tr>");
                         }
                     }
                     else{
-                        if(alpha[i].num < 0){
-                            print("<td rowspan='2'>" + (-alpha[i].num));
-                        }
-                        else{
-                            print("<td rowspan='2'>" + alpha[i].num);
-                        }
-                    }
-                    print("</td></tr>");
-
-                    if(alpha[i].den != 1){
-                        print("<tr><td>" + alpha[i].den + "</td></tr>");
+                        print("<td rowspan='2'>0</td>")
                     }
 
                     print("</table>");
@@ -259,31 +270,39 @@
                 print("<table border='0' cellspacing='0' cellpadding='0'>");
                 print("<tr><td rowspan='2'>&beta;<sub>" + i + "</sub> = &nbsp;");
 
-                if(beta[i].num < 0){
-                    print("-&nbsp;");
-                }
-                print("</td>");
-
-                if(beta[i].den != 1){
+                if(beta[i].num != 0){
                     if(beta[i].num < 0){
-                        print("<td>" + (-beta[i].num) + "<hr>");
+                        print("-");
+                        if(beta[i].den != 1){
+                            print("&nbsp;");
+                        }
+                    }
+                    print("</td>");
+
+                    if(beta[i].den != 1){
+                        if(beta[i].num < 0){
+                            print("<td>" + (-beta[i].num) + "<hr>");
+                        }
+                        else{
+                            print("<td>" + beta[i].num + "<hr>");
+                        }
                     }
                     else{
-                        print("<td>" + beta[i].num + "<hr>");
+                        if(beta[i].num < 0){
+                            print("<td rowspan='2'>" + (-beta[i].num));
+                        }
+                        else{
+                            print("<td rowspan='2'>" + beta[i].num);
+                        }
+                    }
+                    print("</td></tr>");
+
+                    if(beta[i].den != 1){
+                        print("<tr><td>" + beta[i].den + "</td></tr>");
                     }
                 }
                 else{
-                    if(beta[i].num < 0){
-                        print("<td rowspan='2'>" + (-beta[i].num));
-                    }
-                    else{
-                        print("<td rowspan='2'>" + beta[i].num);
-                    }
-                }
-                print("</td></tr>");
-
-                if(beta[i].den != 1){
-                    print("<tr><td>" + beta[i].den + "</td></tr>");
+                    print("<td rowspan='2'>0</td>")
                 }
 
                 print("</table>");
@@ -296,31 +315,39 @@
                 print("<table border='0' cellspacing='0' cellpadding='0'>");
                 print("<tr><td rowspan='2'>x<sub>" + i + "</sub> = &nbsp;");
 
-                if(x[i].num < 0){
-                    print("-&nbsp;");
-                }
-                print("</td>");
-
-                if(x[i].den != 1){
+                if(x[i].num != 0){
                     if(x[i].num < 0){
-                        print("<td>" + (-x[i].num) + "<hr>");
+                        print("-");
+                        if(x[i].den != 1){
+                            print("&nbsp;");
+                        }
+                    }
+                    print("</td>");
+
+                    if(x[i].den != 1){
+                        if(x[i].num < 0){
+                            print("<td>" + (-x[i].num) + "<hr>");
+                        }
+                        else{
+                            print("<td>" + x[i].num + "<hr>");
+                        }
                     }
                     else{
-                        print("<td>" + x[i].num + "<hr>");
+                        if(x[i].num < 0){
+                            print("<td rowspan='2'>" + (-x[i].num));
+                        }
+                        else{
+                            print("<td rowspan='2'>" + x[i].num);
+                        }
+                    }
+                    print("</td></tr>");
+
+                    if(x[i].den != 1){
+                        print("<tr><td>" + x[i].den + "</td></tr>");
                     }
                 }
                 else{
-                    if(x[i].num < 0){
-                        print("<td rowspan='2'>" + (-x[i].num));
-                    }
-                    else{
-                        print("<td rowspan='2'>" + x[i].num);
-                    }
-                }
-                print("</td></tr>");
-
-                if(x[i].den != 1){
-                    print("<tr><td>" + x[i].den + "</td></tr>");
+                    print("<td rowspan='2'>0</td>")
                 }
 
                 print("</table>");
