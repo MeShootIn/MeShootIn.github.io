@@ -1,58 +1,53 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>формы</title>
+<html lang="ru">
 
-		<meta charset="utf-8">
-		<style type="text/css">
-			table{
-				margin: auto;
-			}
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-			td{
-				text-align: center;
-			}
-		</style>
-	</head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-	<body>
-		<table>
-			<tr>
-				<td>
-					<form action="submit.php" method="post">
-						<fieldset>
-							<legend>Контактная информация</legend>
+	<title>Форма</title>
+</head>
 
-							<label>
-								<p>
-									Логин
-									<br>
-									<input type="text" name="login" required>
-								</p>
-							</label>
+<body>
+	<div class="d-flex justify-content-center">
+		<div class="col-4 text-center border rounded shadow py-3 mt-4 bg-white">
+			<form
+				action="https://docs.google.com/forms/d/e/1FAIpQLSd0BVeQ0kcfw-WiGbsZ_MUsttgmG7nGs8FtLGRqHTG4MRJJLg/formResponse"
+				target="_self" method="POST" id="mG61Hd">
 
-							<label>
-								<p>
-									E-mail
-									<br>
-									<input type="email" name="email" required>
-								</p>
-							</label>
+				<div class="form-group">
+					<label for="name">Имя</label>
+					<input type="text" class="form-control" name="name" id="name" placeholder="Иван" required>
+				</div>
 
-							<label>
-								<p>
-									Пароль
-									<br>
-									<input type="password" name="password" required>
-								</p>
-							</label>
+				<div class="form-group">
+					<label for="email">Почта</label>
+					<input type="email" class="form-control" name="emailAddress" id="email"
+						placeholder="example@mail.ru" required>
+				</div>
 
-							<input type="submit">
-							<input type="reset">
-						</fieldset>
-					</form>
-				</td>
-			</tr>
-		</table>
-	</body>
+				<div class="form-group">
+					<textarea class="form-control" name="entry.654817969" cols="40" rows="3" placeholder="Сообщение"
+						required></textarea>
+				</div>
+
+				<button type="submit" class="btn btn-success">Submit</button>
+			</form>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+</body>
+
 </html>
