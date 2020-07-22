@@ -47,34 +47,20 @@ function send_mult(string $to, string $text, int $postpone, bool $translit) {
     }
 }
 
-// set_time_limit(0);
-// test_balance(10);
-// test_balance(50);
-// test_balance(100);
-// test_balance(1000);
-
-function test_balance($requests) {
-    $smsru = new SMSRU(api_id);
-    
+// test_send_mult();
+function test_send_mult() {
     $start = time();
-    $ok = 0;
-    $fail = 0;
+    $fake_numbers = [];
     
-    for($i = 0; $i < $requests; ++$i) {
-        $response = $smsru->getBalance();
-
-        if($response->status == 'OK') {
-            $ok++;
-        }
-        else {
-            $fail++;
-        }
+    // Генерация одинаковых номеров
+    for($i = 0; $i < 10; ++$i) {
+        $fake_numbers[$i] = '74993221627';
     }
-
+    
+    send_mult(implode(',', $fake_numbers), 'text', 0, true);
     $work_time = time() - $start;
-    echo 'Время обработки <strong>' . $requests . '</strong> запросов: <strong>' . $work_time . '</strong> секунд' . '<br>';
-    echo 'Из них: <font color="green">' . $ok . '</font> - удачно, <font color="red">' . $fail . '</font> - ошибки' . '<br>';
-    echo '<hr>';
+
+    echo '<hr><br>Время обработки запроса: ' . $work_time . ' секунд <br>';
 }
 
 function print_balance() {
@@ -90,9 +76,8 @@ function print_balance() {
     }
 }
 
-// set_time_limit(0);
-// test_limit(10);
-// test_limit(50);
+test_limit(10);
+test_limit(50);
 // test_limit(100);
 // test_limit(1000);
 
