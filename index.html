@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Пример панели</title>
+</head>
+
+<body>
+    <script>
+        function showTable() {
+            let table = document.getElementById('table');
+            table.hidden = false;
+        }
+    </script>
+
+    <div class="container mt-3">
+        <div class="row d-flex justify-content-center">
+            <div class="col-10">
+                <div class="card">
+                    <div class="card-header bg-info text-center">Панель Google Sheets</div>
+
+                    <!-- Сформировать документ в Google Sheets, 
+
+                    разработать код выполняющий функции:
+
+                    подключения к документу,
+
+                    выгрузки информации по полям документа,
+
+                    заполнение документа построчно и блоками,
+
+                    добавление новых листов в документ,
+
+                    копирования листов документа, -->
+
+                    <div class="card-body">
+                        <form action="send.php" method="POST">
+                            <div class="form-group">
+                                <label for="document_id">id документа</label>
+                                <input type="text" class="form-control" id="document_id" name="document_id">
+                            </div>
+
+                            <div class="form-group text-center">
+                                <button type="button submit" class="btn btn-outline-success btn-lg"
+                                    onclick="showTable(); return false;">Подключиться</button>
+                            </div>
+                        </form>
+
+                        <hr>
+
+                        <div class="btn-toolbar" role="toolbar" aria-label="Группа кнопок" id="table" hidden>
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr class="table-success">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Имя</th>
+                                        <th scope="col">Фамилия</th>
+                                        <th scope="col">Username</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Иван</td>
+                                        <td>Иванов</td>
+                                        <td>@ivan</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Петр</td>
+                                        <td>Петров</td>
+                                        <td>@petr</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Алексей</td>
+                                        <td>Алексеев</td>
+                                        <td>@alex</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <form>
+                                <div class="form-group">
+                                    <button type="button submit" class="btn btn-outline-success btn">Выгрузить
+                                        данные</button>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-outline-info btn-lg">Добавить новый лист</button>
+
+                                    <button type="button" class="btn btn-outline-warning btn-lg">Копировать лист</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <h3 class="text-center">Инструкция</h3>
+
+                        <ul class="text-left">
+                            <li>Сформировать документ в Google Sheets</li>
+                            <li>разработать код выполняющий функции:</li>
+
+                            <ol>
+                                <li>подключения к документу</li>
+                                <li>выгрузки информации по полям документа</li>
+                                <li>заполнение документа построчно и блоками</li>
+                                <li>добавление новых листов в документ</li>
+                                <li>копирования листов документа</li>
+                            </ol>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
