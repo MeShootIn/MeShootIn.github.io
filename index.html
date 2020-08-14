@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="robots" content="noindex" />
-    <meta name="googlebot" content="article" />
+    <meta id="robots" name="robots" content="noindex" />
 
     <title>Document</title>
 </head>
+
 <body>
-    <h1>KEK</h1>
+    <script>
+        window.onload = () => {
+            let meta = document.getElementById('robots');
+
+            if ((new Date()).getMinutes() % 2 === 1) {
+                meta.content = 'odd';
+            }
+            else {
+                meta.content = 'even';
+            }
+        };
+    </script>
 </body>
+
 </html>
