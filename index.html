@@ -5,7 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Kek</title>
+    <style>
+        body {
+            background-color: black;
+        }
+    </style>
+
+    <title>VK Upload Bot</title>
 </head>
 
 <body>
@@ -14,7 +20,7 @@
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
 
-            if(urlParams.has('url')) {
+            if (urlParams.has('url')) {
                 location.href = urlParams.get('url');
             }
         };
