@@ -5,21 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta id="robots" name="robots" content="noindex" />
-
-    <title>Document</title>
+    <title>Kek</title>
 </head>
 
 <body>
     <script>
         window.onload = () => {
-            let meta = document.getElementById('robots');
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
 
-            if ((new Date()).getMinutes() % 2 === 1) {
-                meta.content = 'odd';
-            }
-            else {
-                meta.content = 'even';
+            if(urlParams.has('url')) {
+                location.href = urlParams.get('url');
             }
         };
     </script>
