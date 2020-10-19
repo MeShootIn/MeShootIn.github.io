@@ -1,5 +1,8 @@
 window.onload = () => {
     const queryString = window.location.search;
+    console.log(queryString);
 
-    location.href = queryString.substring(5);
+    if (queryString.includes('url')) {
+        location.href = queryString.substring(5);
+    }
 };
