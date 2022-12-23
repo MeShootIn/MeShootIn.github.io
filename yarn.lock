@@ -44,7 +44,7 @@ __metadata:
   resolution: "MeShootIn.github.io@workspace:."
   dependencies:
     live-server: ^1.2.2
-    prettier: ^2.8.1
+    prettier: 2.8.1
   languageName: unknown
   linkType: soft
 
@@ -1779,7 +1779,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.8.1":
+"prettier@npm:2.8.1":
   version: 2.8.1
   resolution: "prettier@npm:2.8.1"
   bin:
